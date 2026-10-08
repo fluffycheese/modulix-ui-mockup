@@ -1,83 +1,100 @@
-import { ExternalLink, Database, Globe, Cloud, Shield, GitMerge, Key, Server, Activity } from 'lucide-react';
+import { ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function Dashboard() {
   const apps = [
-    { name: "Nextcloud", url: "https://cloud.agency.com", icon: <Cloud size={24} color="#0082c9" />, status: "active", version: "29.0.4", platform: "Modulix Standard (Swarm)" },
-    { name: "RANT Website", url: "https://rant.agency.com", icon: <Globe size={24} color="#f59e0b" />, status: "active", version: "v2.1.0", platform: "Cloudflare Pages" },
-    { name: "GitLab CE", url: "https://git.agency.com", icon: <GitMerge size={24} color="#fc6d26" />, status: "active", version: "16.11", platform: "Modulix Standard (Swarm)" },
-    { name: "Keycloak", url: "https://sso.agency.com", icon: <Key size={24} color="#00c0f3" />, status: "active", version: "24.0.1", platform: "Modulix Standard (Swarm)" },
-    { name: "PhotoPrism", url: "https://photos.agency.com", icon: <Database size={24} color="#10b981" />, status: "syncing", version: "231128", platform: "Immutable (NixOS)" },
-    { name: "ERPNext", url: "https://erp.agency.com", icon: <Server size={24} color="#007bff" />, status: "active", version: "v15.1", platform: "Modulix Standard (Swarm)" },
-    { name: "Vaultwarden", url: "https://vault.agency.com", icon: <Shield size={24} color="#175DDC" />, status: "active", version: "1.30.5", platform: "Modulix Standard (Swarm)" },
-    { name: "Uptime Kuma", url: "https://status.agency.com", icon: <Activity size={24} color="#22c55e" />, status: "active", version: "1.23.11", platform: "Immutable (NixOS)" }
+    { id: "bp-nc-01", name: "Nextcloud", url: "cloud.agency.com", status: "active", version: "29.0.4", platform: "Swarm", nodes: "worker-01, worker-02, worker-03" },
+    { id: "bp-rant-01", name: "RANT Website", url: "rant.agency.com", status: "active", version: "v2.1.0", platform: "Cloudflare", nodes: "cf-global" },
+    { id: "bp-git-01", name: "GitLab CE", url: "git.agency.com", status: "active", version: "16.11", platform: "Swarm", nodes: "worker-04, worker-05" },
+    { id: "bp-kc-01", name: "Keycloak", url: "sso.agency.com", status: "active", version: "24.0.1", platform: "Swarm", nodes: "worker-01, worker-05" },
+    { id: "bp-photo-01", name: "PhotoPrism", url: "photos.agency.com", status: "syncing", version: "231128", platform: "NixOS", nodes: "gateway-01" },
+    { id: "bp-erp-01", name: "ERPNext", url: "erp.agency.com", status: "active", version: "v15.1", platform: "Swarm", nodes: "worker-02, worker-03, worker-04, worker-05" },
+    { id: "bp-vault-01", name: "Vaultwarden", url: "vault.agency.com", status: "active", version: "1.30.5", platform: "Swarm", nodes: "worker-01" },
+    { id: "bp-kuma-01", name: "Uptime Kuma", url: "status.agency.com", status: "active", version: "1.23.11", platform: "NixOS", nodes: "gateway-02" }
   ];
 
   return (
     <div>
-      <header style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <header style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h1>Client Dashboard</h1>
-          <p>Your installed capabilities and active endpoints.</p>
+          <h1>Infrastructure Dashboard</h1>
+          <p>Global view of deployed capabilities and underlying compute architecture.</p>
         </div>
-        <button className="btn">Deploy New Service</button>
+        <button className="btn">Provision Resource</button>
       </header>
 
-      <h2>Active Services</h2>
-      <div className="bento-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
-        {apps.map((app, i) => (
-          <div key={i} className="glass-panel">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div className="app-logo">
-                {app.icon}
-              </div>
-              <span className={`badge ${app.status}`}>
-                {app.status === 'active' ? '● Online' : '⟳ Syncing'}
-              </span>
-            </div>
-            
-            <h3 style={{ fontSize: '1.125rem', marginBottom: '8px' }}>{app.name}</h3>
-            
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-              <a href={app.url} target="_blank" rel="noreferrer" style={{ color: 'var(--accent-primary)', textDecoration: 'none', fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                {app.url} <ExternalLink size={12} />
-              </a>
-            </div>
-
-            <div style={{ borderTop: '1px solid var(--panel-border)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-              <span>Version {app.version}</span>
-              <span style={{ color: 'var(--accent-primary)', fontWeight: 500 }}>{app.platform}</span>
-            </div>
+      <div style={{ marginBottom: '40px' }}>
+        <h2>System Telemetry Overview</h2>
+        <div className="kpi-grid">
+          <div className="kpi-block">
+            <div className="kpi-label">Swarm Compute</div>
+            <div className="kpi-value">8 <span style={{fontSize: '1rem', color: 'var(--text-muted)'}}>/ 8</span></div>
+            <div style={{fontSize: '0.6875rem', color: 'var(--success)', marginTop: '4px'}}>All nodes reporting healthy</div>
           </div>
-        ))}
+          <div className="kpi-block">
+            <div className="kpi-label">Immutable Proxies</div>
+            <div className="kpi-value">2 <span style={{fontSize: '1rem', color: 'var(--text-muted)'}}>/ 2</span></div>
+            <div style={{fontSize: '0.6875rem', color: 'var(--success)', marginTop: '4px'}}>NixOS configurations matching</div>
+          </div>
+          <div className="kpi-block">
+            <div className="kpi-label">Cloudflare Edge</div>
+            <div className="kpi-value" style={{color: 'var(--success)'}}>OK</div>
+            <div style={{fontSize: '0.6875rem', color: 'var(--text-secondary)', marginTop: '4px'}}>Routing normal</div>
+          </div>
+          <div className="kpi-block">
+            <div className="kpi-label">Blueprint Drift</div>
+            <div className="kpi-value">0%</div>
+            <div style={{fontSize: '0.6875rem', color: 'var(--text-secondary)', marginTop: '4px'}}>Verified 12m ago</div>
+          </div>
+        </div>
       </div>
 
-      <div style={{ marginTop: '48px' }}>
-        <h2>Infrastructure Health</h2>
-        <div className="glass-panel" style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 48px', padding: '32px' }}>
-          <div>
-            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '8px' }}>Swarm Nodes</div>
-            <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--success)' }}>8 / 8</div>
-          </div>
-          <div style={{ width: '1px', background: 'var(--panel-border)' }}></div>
-          <div>
-            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '8px' }}>Immutable (NixOS)</div>
-            <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--success)' }}>2 / 2</div>
-          </div>
-          <div style={{ width: '1px', background: 'var(--panel-border)' }}></div>
-          <div>
-            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '8px' }}>Cloudflare CDN</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--success)', marginTop: '10px' }}>Operational</div>
-          </div>
-          <div style={{ width: '1px', background: 'var(--panel-border)' }}></div>
-          <div>
-            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '8px' }}>Blueprint Drift</div>
-            <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--text-primary)' }}>0%</div>
-          </div>
-          <div style={{ width: '1px', background: 'var(--panel-border)' }}></div>
-          <div>
-            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '8px' }}>Last Validated</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '10px' }}>Just now</div>
-          </div>
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+          <h2>Deployed Capabilities</h2>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}><span className="font-mono">8</span> total resources</div>
+        </div>
+        
+        <div style={{ border: '1px solid var(--panel-border)', borderRadius: '2px', overflow: 'hidden' }}>
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th style={{ width: '40px' }}></th>
+                <th>Blueprint ID</th>
+                <th>Capability</th>
+                <th>Endpoint</th>
+                <th>Platform</th>
+                <th>Target Hosts</th>
+                <th>Version</th>
+                <th style={{ textAlign: 'right' }}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {apps.map((app) => (
+                <tr key={app.id}>
+                  <td style={{ textAlign: 'center' }}>
+                    {app.status === 'active' ? <CheckCircle2 size={14} color="var(--success)" /> : <AlertCircle size={14} color="var(--warning)" />}
+                  </td>
+                  <td className="font-mono" style={{ color: 'var(--text-muted)' }}>{app.id}</td>
+                  <td style={{ fontWeight: 500 }}>{app.name}</td>
+                  <td>
+                    <a href={`https://${app.url}`} target="_blank" rel="noreferrer" style={{ color: 'var(--accent-primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      {app.url} <ExternalLink size={10} />
+                    </a>
+                  </td>
+                  <td>
+                    <span className="tag neutral">{app.platform}</span>
+                  </td>
+                  <td className="font-mono">{app.nodes}</td>
+                  <td className="font-mono">{app.version}</td>
+                  <td style={{ textAlign: 'right' }}>
+                    <span className={`tag ${app.status === 'active' ? 'success' : 'warning'}`}>
+                      {app.status === 'active' ? 'ONLINE' : 'SYNCING'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

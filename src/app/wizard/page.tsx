@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { FileJson, Play, ArrowRight, ArrowLeft, CheckCircle2, Lock, HelpCircle, Layers, Server, Edit3 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, Lock, Terminal, Shield, Database } from 'lucide-react';
 
 export default function WizardPage() {
   const [step, setStep] = useState(0); 
@@ -22,125 +22,94 @@ export default function WizardPage() {
 
   return (
     <div>
-      <header style={{ marginBottom: '40px' }}>
-        <h1>Blueprint Wizard</h1>
-        <p>Interactive setup wizard to compile target infrastructure blueprints.</p>
+      <header style={{ marginBottom: '32px' }}>
+        <h1>Blueprint Compiler</h1>
+        <p>Interactive wizard to generate and deploy target infrastructure blueprints.</p>
       </header>
 
       {step > 0 && (
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '32px', gap: '16px', animation: 'fadeIn 0.3s ease' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: step >= 1 ? 'var(--accent-primary)' : 'var(--text-secondary)' }}>
-            <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: step >= 1 ? 'var(--accent-primary)' : 'var(--panel-border)', color: step >= 1 ? 'white' : 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 'bold' }}>1</div>
-            <span style={{ fontWeight: 500 }}>Application</span>
-          </div>
-          <div style={{ height: '2px', width: '40px', background: step >= 2 ? 'var(--accent-primary)' : 'var(--panel-border)' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: step >= 2 ? 'var(--accent-primary)' : 'var(--text-secondary)' }}>
-            <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: step >= 2 ? 'var(--accent-primary)' : 'var(--panel-border)', color: step >= 2 ? 'white' : 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 'bold' }}>2</div>
-            <span style={{ fontWeight: 500 }}>Target</span>
-          </div>
-          <div style={{ height: '2px', width: '40px', background: step >= 3 ? 'var(--accent-primary)' : 'var(--panel-border)' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: step >= 3 ? 'var(--accent-primary)' : 'var(--text-secondary)' }}>
-            <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: step >= 3 ? 'var(--accent-primary)' : 'var(--panel-border)', color: step >= 3 ? 'white' : 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 'bold' }}>3</div>
-            <span style={{ fontWeight: 500 }}>Configuration</span>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '24px', gap: '8px', fontSize: '0.8125rem', fontFamily: 'monospace' }}>
+          <span style={{ color: step >= 1 ? 'var(--text-primary)' : 'var(--text-muted)' }}>1. Select Application</span>
+          <span style={{ color: 'var(--text-muted)' }}>{'>'}</span>
+          <span style={{ color: step >= 2 ? 'var(--text-primary)' : 'var(--text-muted)' }}>2. Target Platform</span>
+          <span style={{ color: 'var(--text-muted)' }}>{'>'}</span>
+          <span style={{ color: step >= 3 ? 'var(--text-primary)' : 'var(--text-muted)' }}>3. Configuration</span>
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
         
         {/* Left Side: The Wizard Form */}
-        <div className="glass-panel" style={{ flex: '2', minHeight: '500px', display: 'flex', flexDirection: 'column' }}>
+        <div className="panel" style={{ minHeight: '500px', display: 'flex', flexDirection: 'column', borderTop: '2px solid var(--accent-primary)' }}>
           
           {step === 0 && (
-            <div style={{ animation: 'fadeIn 0.3s ease' }}>
-              <h2>What would you like to do?</h2>
-              <p style={{ marginBottom: '24px' }}>Select an action to launch the appropriate configuration flow.</p>
+            <div>
+              <h2 style={{ fontSize: '1rem', border: 'none', marginBottom: '4px' }}>What would you like to do?</h2>
+              <p style={{ marginBottom: '24px', fontSize: '0.8125rem' }}>Select the primary operation context.</p>
               
-              <div style={{ display: 'grid', gap: '16px' }}>
-                <button 
-                  onClick={() => handleIntent('new_app')}
-                  style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '24px', border: '1px solid var(--panel-border)', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s ease', color: 'inherit' }}
-                  className="intent-btn"
-                >
-                  <div style={{ padding: '12px', background: 'var(--accent-primary)', borderRadius: '8px' }}>
-                    <Layers size={24} color="white" />
-                  </div>
-                  <div>
-                    <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Deploy New Application</h3>
-                    <p style={{ fontSize: '0.875rem', marginTop: '4px', color: 'var(--text-secondary)' }}>Launch a new capability like GitLab, Nextcloud, or ERPNext.</p>
-                  </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <button onClick={() => handleIntent('new_app')} className="intent-row">
+                  <Database size={16} /> <span style={{ fontFamily: 'Inter, sans-serif' }}>Deploy New Capability</span>
                 </button>
-
-                <button 
-                  onClick={() => handleIntent('new_node')}
-                  style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '24px', border: '1px solid var(--panel-border)', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s ease', color: 'inherit' }}
-                  className="intent-btn"
-                >
-                  <div style={{ padding: '12px', background: 'var(--accent-secondary)', borderRadius: '8px' }}>
-                    <Server size={24} color="white" />
-                  </div>
-                  <div>
-                    <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Deploy New Infrastructure Node</h3>
-                    <p style={{ fontSize: '0.875rem', marginTop: '4px', color: 'var(--text-secondary)' }}>Provision a new Debian Swarm VM or an Immutable NixOS instance.</p>
-                  </div>
+                <button onClick={() => handleIntent('new_node')} className="intent-row">
+                  <Terminal size={16} /> <span style={{ fontFamily: 'Inter, sans-serif' }}>Provision Infrastructure Node</span>
                 </button>
-
-                <button 
-                  onClick={() => handleIntent('edit_app')}
-                  style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '24px', border: '1px solid var(--panel-border)', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s ease', color: 'inherit' }}
-                  className="intent-btn"
-                >
-                  <div style={{ padding: '12px', background: '#f59e0b', borderRadius: '8px' }}>
-                    <Edit3 size={24} color="white" />
-                  </div>
-                  <div>
-                    <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Edit Existing Capability</h3>
-                    <p style={{ fontSize: '0.875rem', marginTop: '4px', color: 'var(--text-secondary)' }}>Modify domains, secrets, or configuration for a deployed capability.</p>
-                  </div>
+                <button onClick={() => handleIntent('edit_app')} className="intent-row">
+                  <Shield size={16} /> <span style={{ fontFamily: 'Inter, sans-serif' }}>Modify Existing Blueprint</span>
                 </button>
               </div>
               <style jsx>{`
-                .intent-btn:hover {
-                  border-color: var(--text-secondary) !important;
-                  background: rgba(255,255,255,0.05) !important;
-                  transform: translateY(-2px);
+                .intent-row {
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  padding: 16px;
+                  background: var(--bg-color);
+                  border: 1px solid var(--panel-border);
+                  border-radius: 2px;
+                  cursor: pointer;
+                  color: var(--text-primary);
+                  font-family: 'Courier New', monospace;
+                  font-size: 0.875rem;
+                  transition: none;
+                }
+                .intent-row:hover {
+                  border-color: var(--accent-primary);
+                  background: var(--panel-bg);
                 }
               `}</style>
             </div>
           )}
 
           {step === -1 && (
-            <div style={{ animation: 'fadeIn 0.3s ease', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-              <div style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                <Server size={48} />
-              </div>
-              <h2>Wizard Flow in Progress</h2>
-              <p style={{ color: 'var(--text-secondary)', maxWidth: '400px' }}>This section of the wizard (Node Provisioning / App Editing) is currently a mockup placeholder.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+              <Terminal size={32} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+              <div className="font-mono" style={{ color: 'var(--warning)', marginBottom: '16px' }}>Feature Disabled</div>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.8125rem' }}>This section of the wizard is currently a mockup placeholder.</p>
               <button className="btn btn-outline" style={{ marginTop: '24px' }} onClick={() => setStep(0)}>
-                <ArrowLeft size={16} /> Back to Intents
+                <ArrowLeft size={14} /> Back to Intents
               </button>
             </div>
           )}
 
           {step === 1 && (
-            <div style={{ animation: 'fadeIn 0.3s ease' }}>
-              <h2>Select Application Capability</h2>
-              <p style={{ marginBottom: '24px' }}>Choose the service you wish to deploy for this tenant.</p>
+            <div>
+              <h2 style={{ fontSize: '1rem', border: 'none', marginBottom: '4px' }}>Select Application</h2>
+              <p style={{ marginBottom: '24px', fontSize: '0.8125rem' }}>Choose the application blueprint to compile.</p>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 {[
-                  { id: 'rant', name: 'RANT Static Site', desc: 'Astro-powered static platform.' },
-                  { id: 'nextcloud', name: 'Nextcloud', desc: 'Sovereign Collaboration platform.' },
-                  { id: 'gitlab', name: 'GitLab CE', desc: 'Complete DevOps platform.' },
-                  { id: 'keycloak', name: 'Keycloak', desc: 'Open Source Identity and Access Management.' },
-                  { id: 'erpnext', name: 'ERPNext', desc: 'Comprehensive Business Management.' },
-                  { id: 'photoprism', name: 'PhotoPrism', desc: 'AI-powered photo management.' }
+                  { id: 'rant', name: 'RANT Static Site', desc: 'Astro-powered platform.' },
+                  { id: 'nextcloud', name: 'Nextcloud', desc: 'Sovereign Collaboration.' },
+                  { id: 'gitlab', name: 'GitLab CE', desc: 'DevOps Platform.' },
+                  { id: 'keycloak', name: 'Keycloak', desc: 'Identity Provider.' },
+                  { id: 'erpnext', name: 'ERPNext', desc: 'Business Management.' }
                 ].map(app => (
-                  <label key={app.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '16px', border: appType === app.id ? '2px solid var(--accent-primary)' : '1px solid var(--panel-border)', background: appType === app.id ? 'rgba(59, 130, 246, 0.05)' : 'transparent', borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s ease' }}>
-                    <input type="radio" name="app" value={app.id} checked={appType === app.id} onChange={() => setAppType(app.id)} style={{ marginTop: '4px' }} />
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: '1rem' }}>{app.name}</h3>
-                      <p style={{ fontSize: '0.8rem', marginTop: '4px' }}>{app.desc}</p>
+                  <label key={app.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '12px 16px', border: '1px solid', borderColor: appType === app.id ? 'var(--accent-primary)' : 'var(--panel-border)', background: appType === app.id ? 'rgba(59, 130, 246, 0.05)' : 'var(--bg-color)', cursor: 'pointer', borderRadius: '2px' }}>
+                    <input type="radio" name="app" value={app.id} checked={appType === app.id} onChange={() => setAppType(app.id)} />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <span style={{ fontWeight: 500, fontSize: '0.875rem' }}>{app.name}</span>
+                      <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{app.id}</span>
                     </div>
                   </label>
                 ))}
@@ -149,43 +118,39 @@ export default function WizardPage() {
           )}
 
           {step === 2 && (
-            <div style={{ animation: 'fadeIn 0.3s ease' }}>
-              <h2>Deployment Target</h2>
-              <p style={{ marginBottom: '24px' }}>Where should this capability be deployed?</p>
+            <div>
+              <h2 style={{ fontSize: '1rem', border: 'none', marginBottom: '4px' }}>Target Platform</h2>
+              <p style={{ marginBottom: '24px', fontSize: '0.8125rem' }}>Define compute destination.</p>
               
-              <div style={{ display: 'grid', gap: '16px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {appType === 'rant' ? (
                   <>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '16px', border: '2px solid var(--accent-primary)', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', cursor: 'pointer' }}>
-                      <input type="radio" name="platform" value="cloudflare" checked={platform === 'cloudflare'} onChange={() => setPlatform('cloudflare')} style={{ marginTop: '4px' }} />
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '16px', border: '1px solid var(--accent-primary)', background: 'rgba(59, 130, 246, 0.05)' }}>
+                      <input type="radio" checked readOnly style={{ marginTop: '2px' }} />
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <h3 style={{ margin: 0, fontSize: '1.125rem' }}>Cloudflare Pages / CDN</h3>
-                          <span className="badge active"><CheckCircle2 size={12} /> Recommended</span>
+                          <span style={{ fontWeight: 500 }}>Cloudflare Edge CDN</span>
+                          <span className="tag success">RECOMMENDED</span>
                         </div>
-                        <p style={{ fontSize: '0.875rem', marginTop: '6px', color: 'var(--text-primary)' }}>Best for static Astro apps like RANT.</p>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '8px' }}>Deploy directly to global edge workers for purely static assets.</div>
                       </div>
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '16px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', cursor: 'not-allowed', opacity: 0.5 }}>
-                      <input type="radio" name="platform" disabled style={{ marginTop: '4px' }} />
-                      <div><h3 style={{ margin: 0, fontSize: '1.125rem', color: 'var(--text-secondary)' }}>Docker Swarm</h3></div>
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '16px', border: '1px solid var(--panel-border)', opacity: 0.5 }}>
+                      <input type="radio" disabled />
+                      <div><span style={{ fontWeight: 500, color: 'var(--text-secondary)' }}>Docker Swarm (Local Compute)</span></div>
                     </label>
                   </>
                 ) : (
                   <>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '16px', border: '2px solid var(--accent-primary)', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', cursor: 'pointer' }}>
-                      <input type="radio" name="platform" value="swarm" checked={true} onChange={() => {}} style={{ marginTop: '4px' }} />
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '16px', border: '1px solid var(--accent-primary)', background: 'rgba(59, 130, 246, 0.05)' }}>
+                      <input type="radio" checked readOnly style={{ marginTop: '2px' }} />
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <h3 style={{ margin: 0, fontSize: '1.125rem' }}>Modulix Standard (Docker Swarm)</h3>
-                          <span className="badge active"><CheckCircle2 size={12} /> Recommended</span>
+                          <span style={{ fontWeight: 500 }}>Modulix Standard Swarm</span>
+                          <span className="tag success">RECOMMENDED</span>
                         </div>
-                        <p style={{ fontSize: '0.875rem', marginTop: '6px', color: 'var(--text-primary)' }}>Deploys to the 8-node compute cluster.</p>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '8px' }}>Deploy stateful container stacks to the local compute cluster.</div>
                       </div>
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '16px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', cursor: 'not-allowed', opacity: 0.5 }}>
-                      <input type="radio" name="platform" disabled style={{ marginTop: '4px' }} />
-                      <div><h3 style={{ margin: 0, fontSize: '1.125rem', color: 'var(--text-secondary)' }}>Cloudflare CDN</h3></div>
                     </label>
                   </>
                 )}
@@ -194,31 +159,22 @@ export default function WizardPage() {
           )}
 
           {step === 3 && (
-            <div style={{ animation: 'fadeIn 0.3s ease' }}>
-              <h2>Configuration Parameters</h2>
-              <p style={{ marginBottom: '24px' }}>Provide the final credentials and variables required to compile this deployment.</p>
+            <div>
+              <h2 style={{ fontSize: '1rem', border: 'none', marginBottom: '4px' }}>Configuration</h2>
+              <p style={{ marginBottom: '24px', fontSize: '0.8125rem' }}>Provide dynamic parameters for compilation.</p>
               
-              {appType === 'rant' ? (
-                <div className="form-group" style={{ position: 'relative' }}>
-                  <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Lock size={14} color="var(--accent-secondary)" /> Cloudflare API Token
-                  </label>
-                  <input type="password" className="form-input" placeholder="••••••••••••••••••••••••••••••••••••" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
-                </div>
-              ) : (
-                <div className="form-group" style={{ position: 'relative' }}>
-                  <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Lock size={14} color="var(--accent-secondary)" /> Initial Admin Password
-                  </label>
-                  <input type="password" className="form-input" placeholder="Leave blank to auto-generate" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
-                </div>
-              )}
+              <div className="form-group">
+                <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Lock size={12} color="var(--accent-secondary)" /> {appType === 'rant' ? 'Cloudflare API Token' : 'Initial Admin Password'}
+                </label>
+                <input type="password" className="form-input" placeholder="••••••••••••••••••••••••••••" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+              </div>
 
               <div className="form-group">
-                <label className="form-label">Subdomain to Use</label>
+                <label className="form-label">Subdomain</label>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <input type="text" className="form-input" placeholder="e.g. app" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0, borderRight: 'none' }} />
-                  <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--panel-border)', padding: '12px 16px', borderTopRightRadius: '8px', borderBottomRightRadius: '8px', color: 'var(--text-secondary)', borderLeft: 'none' }}>
+                  <input type="text" className="form-input" placeholder="app" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} style={{ borderRight: 'none' }} />
+                  <div style={{ background: 'var(--panel-bg)', border: '1px solid var(--panel-border)', padding: '8px 12px', color: 'var(--text-secondary)', borderLeft: 'none', fontSize: '0.875rem' }}>
                     .agency.com
                   </div>
                 </div>
@@ -227,41 +183,36 @@ export default function WizardPage() {
           )}
 
           {step > 0 && (
-            <div style={{ borderTop: '1px solid var(--panel-border)', marginTop: 'auto', paddingTop: '24px', display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ borderTop: '1px solid var(--panel-border)', marginTop: 'auto', paddingTop: '16px', display: 'flex', justifyContent: 'space-between' }}>
               <button type="button" className="btn btn-outline" onClick={() => setStep(step > 1 ? step - 1 : 0)}>
-                <ArrowLeft size={16} /> Back
+                <ArrowLeft size={14} /> Back
               </button>
               
               {step < 3 ? (
                 <button type="button" className="btn" onClick={() => setStep(step + 1)}>
-                  Next Step <ArrowRight size={16} />
+                  Next <ArrowRight size={14} />
                 </button>
               ) : (
-                <button type="button" className="btn">
-                  <Play size={16} fill="currentColor" />
-                  Compile & Deploy
+                <button type="button" className="btn" style={{ background: 'var(--success)', color: '#000' }}>
+                  <Terminal size={14} /> Compile & Deploy
                 </button>
               )}
             </div>
           )}
         </div>
 
-        {/* Right Side: The Code Preview */}
-        <div className="glass-panel" style={{ flex: '1', background: '#0f172a', transition: 'all 0.3s ease', opacity: step > 0 ? 1 : 0.5, filter: step > 0 ? 'none' : 'grayscale(100%)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-            <FileJson size={16} color="var(--accent-secondary)" />
-            <h3 style={{ fontSize: '1rem', margin: 0 }}>Generated Blueprint</h3>
+        {/* Right Side: Code Preview */}
+        <div className="panel" style={{ background: '#000', border: '1px solid #1f2937', padding: '16px', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginBottom: '16px', borderBottom: '1px solid #1f2937', paddingBottom: '8px' }}>
+            ./blueprints/target.yaml
           </div>
           {step > 0 ? (
-            <pre style={{ color: '#38bdf8', fontSize: '0.85rem', overflowX: 'auto', fontFamily: 'monospace', lineHeight: 1.6 }}>
+            <pre style={{ color: '#60a5fa', fontSize: '0.8125rem', fontFamily: 'monospace', lineHeight: 1.5 }}>
 {`schemaVersion: "1.0"
 blueprintId: "bp-${appType}-01"
-name: "${appType.toUpperCase()} Prod"
-maintainerTeam: "core"
-lifecycleStatus: "active"
+name: "${appType.toUpperCase()}"
 
 tenant: "agency-prod-01"
-environment: "production"
 
 platformTargets:
   - "${appType === 'rant' ? 'cloudflare' : 'standard'}"
@@ -272,12 +223,12 @@ domains:
 secrets:
   store: "vault"
   paths:
-    - "/tenants/agency/${appType}_secret"
+    - "/${appType}_secret"
 `}
             </pre>
           ) : (
-            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontStyle: 'italic' }}>
-              Select an intent to begin blueprint generation.
+            <div className="font-mono" style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+              # Waiting for input...
             </div>
           )}
         </div>
