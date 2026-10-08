@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Gradients for a premium, high-tech aesthetic -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0891b2" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="indigoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#4338ca" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#7e22ce" />
+    </linearGradient>
+  </defs>
+
+  <!-- Isometric Stack of Blueprint Blocks -->
+  <g transform="translate(0, 5)">
+    <!-- Bottom Left Block -->
+    <g class="block block-bottom-left">
+      <!-- Top Face -->
+      <polygon points="25,55 50,42 75,55 50,68" fill="url(#blueGrad)" opacity="0.9" />
+      <!-- Left Face -->
+      <polygon points="25,55 50,68 50,85 25,72" fill="#1d4ed8" />
+      <!-- Right Face -->
+      <polygon points="50,68 75,55 75,72 50,85" fill="#1e3a8a" />
+    </g>
+
+    <!-- Mid Right Block (Stacked) -->
+    <g class="block block-mid-right" transform="translate(0, -18)">
+      <!-- Top Face -->
+      <polygon points="25,55 50,42 75,55 50,68" fill="url(#indigoGrad)" opacity="0.95" />
+      <!-- Left Face -->
+      <polygon points="25,55 50,68 50,85 25,72" fill="#4338ca" />
+      <!-- Right Face -->
+      <polygon points="50,68 75,55 75,72 50,85" fill="#312e81" />
+    </g>
+
+    <!-- Top Block (Floating / Perfect Alignment) -->
+    <g class="block block-top" transform="translate(0, -38)">
+      <!-- Top Face -->
+      <polygon points="25,55 50,42 75,55 50,68" fill="url(#cyanGrad)" />
+      <!-- Left Face -->
+      <polygon points="25,55 50,68 50,85 25,72" fill="#0891b2" />
+      <!-- Right Face -->
+      <polygon points="50,68 75,55 75,72 50,85" fill="#164e63" />
+    </g>
+
+    <!-- Blueprint Grid Lines underneath -->
+    <path d="M 15,62 L 50,80 L 85,62" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="2,2" opacity="0.6" />
+    <path d="M 50,80 L 50,95" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="2,2" opacity="0.6" />
+  </g>
+</svg>
