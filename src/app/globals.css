@@ -256,3 +256,75 @@ p {
   font-weight: 700;
   color: var(--text-primary);
 }
+
+/* Responsive Mobile Styles */
+.mobile-header {
+  display: none;
+}
+
+.menu-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--panel-border);
+  }
+  
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--panel-border);
+    padding: 16px;
+    display: none;
+  }
+  
+  .sidebar.open {
+    display: flex;
+  }
+  
+  .sidebar .brand {
+    display: none;
+  }
+  
+  .main-content {
+    padding: 16px;
+    overflow-x: hidden;
+  }
+  
+  .panel {
+    padding: 16px;
+    overflow-x: auto;
+  }
+  
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Force all inline grid rows to stack on mobile */
+  div[style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Prevent tables from squishing */
+  .data-table {
+    min-width: 600px;
+  }
+}
